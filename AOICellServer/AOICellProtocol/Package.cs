@@ -1,8 +1,9 @@
 ﻿using System;
-
+using PENet;
 namespace AOICellProtocol
 {
-    public class Package
+    [Serializable]
+    public class Package:AsyncMsg
     {
 
     }
