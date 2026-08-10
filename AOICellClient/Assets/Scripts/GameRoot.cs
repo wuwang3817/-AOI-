@@ -2,11 +2,16 @@
 using UnityEngine;
 using AOICellProtocol;
 using PEUtils;
+using UnityEngine.UI;
 //客户端根节点
 public class GameRoot : MonoBehaviour
 {
     public static GameRoot Instance;
-    
+    public Text TextEntityID;
+    public Camera camera;
+    public bool setFollow;
+    public Transform EntityRoot;
+    public Transform CellRoot;
     AsyncNet<ClientSession, Package> client=new AsyncNet<ClientSession, Package>();
     void Start()
     {
@@ -24,5 +29,16 @@ public class GameRoot : MonoBehaviour
     void Update()
     {
         
+    }
+    public void ClickLoginButton()
+    {
+        client.session.SendMsg(new Package
+        {
+            cmd=Command.RequestLogin,
+            requestLogin=new RequestLogin 
+            {
+                account="Test"
+            },
+        });
     }
 }

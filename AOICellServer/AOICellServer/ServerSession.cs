@@ -16,7 +16,19 @@ namespace AOICellServer
 
         protected override void OnReceiveMsg(Package msg)
         {
-            
+            this.LogGreen($"$ReceiveMessage:{msg.cmd.ToString()}");
+            NetPack netPack=new NetPack(this,msg);
+            ServerRoot.Instance.AddMsgPack(netPack);
+        }
+    }
+    public class NetPack
+    {
+        public ServerSession serverSession;
+        public Package package;
+        public NetPack(ServerSession serverSession,Package package)
+        {
+            this.serverSession=serverSession;
+            this.package=package;
         }
     }
 }

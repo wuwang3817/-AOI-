@@ -6,7 +6,7 @@ public class ClientSession : AsyncSession<Package>
 {
     protected override void OnConnected(bool result)
     {
-        this.LogGreen("Connect Server:{0}", result));
+        this.LogGreen("Connect Server:{0}", result);
     }
 
     protected override void OnDisConnected()

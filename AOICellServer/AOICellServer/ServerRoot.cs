@@ -1,6 +1,7 @@
 ﻿//服务器根节点
 using AOICellProtocol;
 using PENet;
+using System.Collections.Concurrent;
 
 namespace AOICellServer
 {
@@ -18,8 +19,10 @@ namespace AOICellServer
                 return instance;
             }
         }
+        
 
         private AsyncNet<ServerSession,Package> server=new AsyncNet<ServerSession,Package>();
+        private ConcurrentQueue<NetPack> NetPackQueue = new ConcurrentQueue<NetPack>();
         private BattleStage stage=new BattleStage();
         public void Init()
         {
@@ -28,11 +31,42 @@ namespace AOICellServer
         }
         public void Tick()
         {
+            while(!NetPackQueue.IsEmpty)
+            {
+                if(NetPackQueue.TryDequeue(out NetPack netPack))
+                {
+                    switch (netPack.package.cmd)
+                    {
+                        case Command.RequestLogin:
+                            LoginStage(netPack);
+                            break;
+                        case Command.ResponseLogin:
+                            break;
+                        case Command.SendMovePosition:
+                            break;
+                        case Command.SendExit:
+                            break;
+                    }
+                }
+                else
+                {
+                    this.Error($"Dequeue Package Failed");
+                }
+                
+            }
             stage.TickStage();
         }
         public void UnInit()
         {
             stage.UnInitStage();
+        }
+        public void AddMsgPack(NetPack netPack)
+        {
+            NetPackQueue.Enqueue(netPack);
+        }
+
+        private void LoginStage(NetPack netPack)
+        {
         }
     }
 }
