@@ -2,6 +2,7 @@
 using AOICellProtocol;
 using PENet;
 using System.Collections.Concurrent;
+using System.Numerics;
 
 namespace AOICellServer
 {
@@ -67,6 +68,28 @@ namespace AOICellServer
 
         private void LoginStage(NetPack netPack)
         {
+            BattleEntity entity = new BattleEntity
+            {
+                entityID = GetClientUniqueEntityID(),
+                session = netPack.serverSession,
+                targetPos = new Vector3(10, 0, 10),
+                playerState = PlayerStateEnum.None
+            };
+            stage.EnterStage(entity);
+            entity.SendMsg(new Package 
+            { 
+                cmd = Command.ResponseLogin,
+                responseLogin = new ResponseLogin 
+                { 
+                    EntityID = entity.entityID
+                }
+            });
+        }
+
+        private uint uid;
+        private uint GetClientUniqueEntityID()
+        {
+            return ++uid;
         }
     }
 }

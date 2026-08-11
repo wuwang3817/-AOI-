@@ -16,5 +16,6 @@ public class ClientSession : AsyncSession<Package>
 
     protected override void OnReceiveMsg(Package msg)
     {
+        GameRoot.Instance.AddPackage(msg);
     }
 }
