@@ -1,6 +1,6 @@
 ﻿using AOICellProtocol;
 using System.Numerics;
-
+using AOICell;
 
 namespace AOICellServer
 {
@@ -18,6 +18,8 @@ namespace AOICellServer
         public Vector3 targetDir;
         public Vector3 targetPos;
         public PlayerStateEnum playerState;
+
+        public AOIEntity aoiEntity;
 
         public void SendMsg(Package package)
         {
